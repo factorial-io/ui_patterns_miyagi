@@ -1,0 +1,15 @@
+{
+    "name": "drupal/ui_patterns_miyagi",
+    "description": "Ui Patterns integration with miyagi",
+    "type": "drupal-module",
+    "require": {
+        "spatie/yaml-front-matter": "^2.0",
+        "swaggest/json-schema": "*"
+    },
+    "authors": [
+        {
+            "name": "Stephan Huber",
+            "email": "stephan@factorial.io"
+        }
+    ]
+}

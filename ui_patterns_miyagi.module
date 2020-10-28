@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Contains ui_patterns_miyagi.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\ui_patterns_miyagi\PatternDecorator;
+
+/**
+ * Implements hook_help().
+ */
+function ui_patterns_miyagi_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the ui_patterns_miyagi module.
+    case 'help.page.ui_patterns_miyagi':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Ui Patterns Miyagi') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_element_plugin_alter().
+ */
+function ui_patterns_miyagi_element_plugin_alter(array &$definitions) {
+  // Decorate the pattern class with our own implementation.
+  $definitions['pattern']['class'] = PatternDecorator::class;
+}

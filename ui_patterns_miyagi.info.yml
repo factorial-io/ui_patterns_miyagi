@@ -1,0 +1,8 @@
+name: 'ui_patterns_miyagi'
+type: module
+description: 'UI Patterns Miyagi'
+core: 8.x
+package: 'User Interface'
+dependencies:
+  - ui_patterns_library
+  - components
