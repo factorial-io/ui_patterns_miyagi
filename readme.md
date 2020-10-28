@@ -8,7 +8,7 @@ miyagi is a component development tool for JavaScript templating engines. More i
 
 ## Installation
 
-Install the module as usual, alll dependencies are handled by composer.
+Install the module as usual, all dependencies are handled by composer.
 
 ## Dependencies
 
