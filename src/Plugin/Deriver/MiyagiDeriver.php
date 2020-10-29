@@ -105,9 +105,15 @@ class MiyagiDeriver extends LibraryDeriver {
       $schema = $this->getSchema($base_path, $context);
       $mock = $this->getMock($base_path);
 
+      $label = explode('/', dirname($relative_path));
+      array_pop($label);
+      array_unshift($label, $data['namespace']);
+      $label[] = $info['name'] ?? $machine_name;
+      $label = implode(' / ', array_map('ucwords', $label));
+
       $definition = [
         'id' => $this->getMachineName($data['namespace'] . '_' . $machine_name),
-        'label' => $info['name'] ?? ucwords($relative_path),
+        'label' => $label,
         'base path' => dirname($file_path),
         'file name' => $file_path,
         'provider' => explode('@', $provider)[0],
