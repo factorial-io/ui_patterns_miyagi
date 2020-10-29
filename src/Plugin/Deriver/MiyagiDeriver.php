@@ -105,11 +105,7 @@ class MiyagiDeriver extends LibraryDeriver {
       $schema = $this->getSchema($base_path, $context);
       $mock = $this->getMock($base_path);
 
-      $label = explode('/', dirname($relative_path));
-      array_pop($label);
-      array_unshift($label, $data['namespace']);
-      $label[] = $info['name'] ?? $machine_name;
-      $label = implode(' / ', array_map('ucwords', $label));
+      $label = $this->getPatternLabel($relative_path, $data['namespace'], $info['name'], $machine_name);
 
       $definition = [
         'id' => $this->getMachineName($data['namespace'] . '_' . $machine_name),
@@ -268,16 +264,25 @@ class MiyagiDeriver extends LibraryDeriver {
   private function resolveMockRefs(array $preview, $definitions) {
     if (isset($preview['$ref']) || isset($preview['$tpl'])) {
       return $this->resolveMockRef($preview, $definitions);
+    } else if (isset($preview['$render'])) {
+      $result = [];
+      foreach ($preview['$render'] as $elem) {
+        if (is_array($elem)) {
+          $value = $this->resolveMockRefs($elem, $definitions);
+        } else {
+          $value = [
+            '#type' => 'markup',
+            '#markup' => $elem,
+          ];
+        }
+        $result[] = $value;
+      }
+      return $result;
     }
     $result = [];
     foreach ($preview as $ndx => $value) {
       if (is_array($value)) {
-        if (isset($value['$render'])) {
-          $result[$ndx] = '$render not supported';
-        }
-        else {
-          $result[$ndx] = $this->resolveMockRefs($value, $definitions);
-        }
+        $result[$ndx] = $this->resolveMockRefs($value, $definitions);
       }
       else {
         $result[$ndx] = $value;
@@ -373,6 +378,18 @@ class MiyagiDeriver extends LibraryDeriver {
       $result[$key] = $value;
     }
     return $result;
+  }
+
+  /**
+   * Compute pattern label.
+   */
+  protected function getPatternLabel($relative_path, $name_space, $name, $machine_name): string
+  {
+    $arr = explode('/', dirname($relative_path));
+    array_pop($arr);
+    array_unshift($arr, $name_space);
+    $arr[] = $name ?? $machine_name;
+    return implode(' / ', array_map('ucwords', $arr));
   }
 
 }

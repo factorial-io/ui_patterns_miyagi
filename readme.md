@@ -30,7 +30,6 @@ with UI Patterns.
   or info-files
 * The folder name of the pattern is transformed into its id. So pattern `elements/image`
   is available under the ID `elements_image`
-* The `$render`-directive is not supported.
 * The concept of variants in miyagi and in UI Patterns are not compatible, miyagis variants
   are only supported for mock-data.
 * Only the active theme is currently supported
